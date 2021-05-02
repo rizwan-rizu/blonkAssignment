@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
   content: { paddingTop: theme.spacing(12), paddingBottom: theme.spacing(10), backgroundColor: pallet.gray },
 }))
 
+// Template component that will render components body inside it as content between header and footer
 const Template = (props) => {
   const classes = useStyles()
   return (

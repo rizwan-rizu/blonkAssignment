@@ -1,3 +1,4 @@
+// colors variable module
 module.exports = {
   white: "#ffffff",
   black: "#000000",

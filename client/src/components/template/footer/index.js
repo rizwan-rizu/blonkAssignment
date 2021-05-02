@@ -1,11 +1,14 @@
 import React from 'react'
-import { Box, Container, Typography, MenuItem, Menu, Divider, Button } from '@material-ui/core'
+import { Box, Container, Typography, MenuItem, Menu, Divider, Button, Hidden } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import pallet from '../../common/colors'
 import applePlayButton from '../../../assets/images/apple.svg'
 import googlePlayButton from '../../../assets/images/google.svg'
 import { ArrowDropDown, Facebook, Instagram, LinkedIn, Twitter } from '@material-ui/icons'
+import { useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
+// component styling
 const useStyles = makeStyles((theme) => ({
   footer: { backgroundColor: pallet.black100, color: pallet.gray400 },
   socialIconContainer: {
@@ -40,9 +43,13 @@ const useStyles = makeStyles((theme) => ({
 // Footer component
 const Footer = props => {
   const classes = useStyles()
+  const theme = useTheme()
+  const xs_down = useMediaQuery(theme.breakpoints.down('xs')) // material breakPoint
+
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [language, setlanguage] = React.useState("English")
 
+  // hander for language menu
   const handleClick = (event) => setAnchorEl(event.currentTarget)
   const handleLanguage = (value) => {
     setlanguage(value)
@@ -51,14 +58,16 @@ const Footer = props => {
   const handleClose = () => setAnchorEl(null)
 
   return (
-    <Box className={classes.footer}>
+    <footer className={classes.footer}>
       <Container maxWidth="lg">
-        <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Box display="flex" alignItems="center" justifyContent="space-between" flexWrap={xs_down ? "wrap" : "nowrap"}>
           <Box flexGrow={1} py={1.5}>
             <Typography variant="h4">blonk</Typography>
           </Box>
-          <Divider className={classes.divider} orientation="vertical" flexItem />
-          <Box display="flex" alignItems="center" >
+          <Hidden xsDown>
+            <Divider className={classes.divider} orientation="vertical" flexItem />
+          </Hidden>
+          <Box display="flex" alignItems="center">
             <Box className={classes.socialIconContainer} display="flex" alignItems="center">
               <Box pr={1}><Facebook className={classes.socialIcon} /></Box>
               <Box pr={1}><Twitter className={classes.socialIcon} /></Box>
@@ -66,8 +75,10 @@ const Footer = props => {
               <Box><Instagram className={classes.socialIcon} /></Box>
             </Box>
           </Box>
-          <Divider className={classes.divider} orientation="vertical" flexItem />
-          <Box width={{ xs: 120, sm: 150 }} textAlign="center" >
+          <Hidden xsDown>
+            <Divider className={classes.divider} orientation="vertical" flexItem />
+          </Hidden>
+          <Box width={{ xs: "100%", sm: 150 }} pb={{ xs: 2, sm: 0 }} textAlign={xs_down ? "right" : "center"} >
             <Button variant="contained" className={classes.languageMenu} onClick={handleClick} endIcon={<ArrowDropDown />}>
               {language}
             </Button>
@@ -104,7 +115,7 @@ const Footer = props => {
           <span className={classes.weightedText}>© Blonk Group 2021.</span> All rights reserved.
         </Typography>
       </Box>
-    </Box >
+    </footer>
   )
 }
 

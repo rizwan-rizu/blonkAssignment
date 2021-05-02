@@ -1,30 +1,15 @@
 import React from 'react'
-import { Box, Typography, Breadcrumbs, Paper, Divider, FormControl, OutlinedInput, InputAdornment, FormHelperText } from '@material-ui/core'
+import { Box, Typography, Paper, Divider } from '@material-ui/core'
 import Template from '../template'
-import { Visibility, VisibilityOff } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
-import { Link } from 'react-router-dom'
-import pallet from '../common/colors.js'
 import PrimaryBtn from '../common/primaryBtn'
 import Axios from 'axios'
 import NotificationSnackbar from '../common/snackbar'
+import PasswordField from '../common/passwordField'
+import BreadcrumbComponent from '../common/breadcrumb'
 
 // component styling
 const useStyle = makeStyles((theme) => ({
-  breadcrumb: {
-    backgroundColor: pallet.green100,
-    padding: "8px 15px",
-    borderRadius: 5,
-    '& .MuiBreadcrumbs-separator': {
-      color: pallet.white
-    }
-  },
-  achorLink: {
-    color: pallet.white,
-    textDecoration: "none",
-    outline: "none",
-    fontSize: 14
-  },
   fontweight600: { fontWeight: 600 },
   fieldLabel: { fontWeight: 600, paddingBottom: theme.spacing(1) },
   visibilityIcon: { width: 18, cursor: "pointer" }
@@ -67,6 +52,9 @@ const RestPassword = (props) => {
       console.log(err)
     })
   }, [])
+
+  //Breadcrum data
+  const breadcrumData = [{ name: "Home", link: "#" }, { name: "My profile", link: "#" }]
 
   // form fields array of json
   const formFields = [
@@ -125,6 +113,7 @@ const RestPassword = (props) => {
     }
   }
 
+  // handler for form submit
   const handleFormSubmit = () => {
     if (!error.currentPassword && !error.newPassword && !error.confirmPassword && value.newPassword && value.confirmPassword && value.currentPassword) {
       const body = { password: value.newPassword }
@@ -145,18 +134,13 @@ const RestPassword = (props) => {
   }
 
   // body function that will render inside template component by sending as a prop
-  const body = () => (
+  const componentBody = () => (
     <Box>
       <Box pb={5} display="flex" alignItems="center" justifyContent="space-between">
         <Typography className={classes.fontweight600} variant="h6">My profile</Typography>
-        <Box className={classes.breadcrumb}>
-          <Breadcrumbs separator="›">
-            <Link className={classes.achorLink} to="#">Home</Link>
-            <Link className={classes.achorLink} to="#">My profile</Link>
-          </Breadcrumbs>
-        </Box>
+        <BreadcrumbComponent data={breadcrumData} />
       </Box>
-      <Paper elevation={3}>
+      <Paper elevation={2}>
         <Box p={2}>
           <Typography className={classes.fontweight600} variant="body2">{`Password & Security`}</Typography>
         </Box>
@@ -165,48 +149,31 @@ const RestPassword = (props) => {
           {formFields.map((item, idx) => ( //mapping form fields array of json
             <Box key={idx} flexGrow={1} pr={3} pt={1}>
               <Typography className={classes.fieldLabel} variant="body2">{item.label}</Typography>
-              <FormControl className={`${classes.margin} ${classes.textField}`} size="small" variant="outlined" error fullWidth>
-                <OutlinedInput
-                  type={value[item.visibility] ? 'text' : 'password'}
-                  value={value[item.name]}
-                  placeholder="password"
-                  onChange={handleChange(item.name)}
-                  error={error[item.name]}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      {value[item.visibility] ?
-                        <Visibility
-                          className={classes.visibilityIcon}
-                          onClick={handleClickShowPassword(item.visibility)}
-                        />
-                        :
-                        <VisibilityOff
-                          className={classes.visibilityIcon}
-                          onClick={handleClickShowPassword(item.visibility)}
-                        />
-                      }
-                    </InputAdornment>
-                  }
-                />
-                {error[item.name] && // helper text to show field errors
-                  <FormHelperText>{showFieldError(item.name)}</FormHelperText>
-                }
-              </FormControl>
+              <PasswordField // password field component calling here
+                id={item.name}
+                value={value[item.name]}
+                visibility={value[item.visibility]}
+                error={error[item.name]}
+                onChange={handleChange(item.name)}
+                onVisibilityClick={handleClickShowPassword(item.visibility)}
+                fieldError={showFieldError(item.name)}
+              />
             </Box>
           ))}
         </Box>
       </Paper>
-      <Box mt={2}>
+      <Box mt={2.5}>
+        {/* Primary button component calling here */}
         <PrimaryBtn text="Save changes" onClick={handleFormSubmit} />
       </Box>
-      {snackbar.open && //snackbar to show message
+      {snackbar.open && //snackbar component calling here to show messages
         <NotificationSnackbar open={snackbar.open} close={closeSnackbar} message={snackbar.message} />
       }
     </Box>
   )
 
   return (
-    <Template body={body()} />
+    <Template body={componentBody()} />
   )
 }
 

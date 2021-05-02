@@ -3,6 +3,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 
+// Snackbar component
 export default function NotificationSnackbar(props) {
   return (
     <Snackbar

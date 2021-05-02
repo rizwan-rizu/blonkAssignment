@@ -1,9 +1,29 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express')
+const router = express.Router()
+const user = require('../database')
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+/* GET user object. */
+router.get('/', (req, res) => {
+  res.json({ success: true, user, user })
+})
 
-module.exports = router;
+// password update route that will update password
+router.post('/update-password', (req, res) => {
+  const { password } = req.body
+  try {
+    if (password) {
+      user.password = password
+      if (user.password === password) {
+        res.json({ success: true, user: user, message: "User password has been update successfully" })
+      } else {
+        res.json({ success: false, user: user, message: "Sorry, your request cannot be processed at the moment" })
+      }
+    } else {
+      res.json({ success: false, message: "Missing required parameters" })
+    }
+  } catch (err) {
+
+  }
+})
+
+module.exports = router

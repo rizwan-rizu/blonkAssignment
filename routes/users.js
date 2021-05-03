@@ -13,7 +13,7 @@ router.post('/update-password', (req, res) => {
   try {
     if (password) {
       user.password = password
-      if (user.password === password) {
+      if (user.password === password) { // this check is just to check either password has been updated or not
         res.json({ success: true, user: user, message: "User password has been update successfully" })
       } else {
         res.json({ success: false, user: user, message: "Sorry, your request cannot be processed at the moment" })

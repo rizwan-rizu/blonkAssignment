@@ -22,13 +22,13 @@ const useStyle = makeStyles((theme) => ({
   },
 }))
 
-// Breadcrum component
+// Breadcrumb component
 function BreadcrumbComponent(props) {
   const classes = useStyle()
   return (
     <Box className={classes.breadcrumb}>
       <Breadcrumbs separator="›">
-        {props.data.map((item, idx) => (
+        {props.data.map((item, idx) => ( // mapping data which have sent here as props
           <Link key={idx} className={classes.achorLink} to={item.link}>{item.name}</Link>
         ))}
       </Breadcrumbs>

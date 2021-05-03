@@ -138,6 +138,7 @@ const RestPassword = (props) => {
     <Box>
       <Box pb={5} display="flex" alignItems="center" justifyContent="space-between">
         <Typography className={classes.fontweight600} variant="h6">My profile</Typography>
+        {/* Breadcrumb component calling here */}
         <BreadcrumbComponent data={breadcrumData} />
       </Box>
       <Paper elevation={2}>

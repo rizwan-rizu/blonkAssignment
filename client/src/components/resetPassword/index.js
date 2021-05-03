@@ -148,7 +148,7 @@ const RestPassword = (props) => {
         <Divider orientation="horizontal" />
         <Box px={2} pt={2} pb={5} display="flex" justifyContent="space-between" flexWrap="wrap">
           {formFields.map((item, idx) => ( //mapping form fields array of json
-            <Box key={idx} flexGrow={1} pr={3} pt={1}>
+            <Box key={idx} flexGrow={1} px={1.5} pt={1}>
               <Typography className={classes.fieldLabel} variant="body2">{item.label}</Typography>
               <PasswordField // password field component calling here
                 id={item.name}

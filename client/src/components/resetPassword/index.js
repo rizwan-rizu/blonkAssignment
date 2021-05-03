@@ -41,7 +41,7 @@ const RestPassword = (props) => {
 
   // handler for snackbar
   const closeSnackbar = () => setsnackbar({ ...snackbar, open: false, message: '' })
-  const showSnackbar = (severity, message) => setsnackbar({ ...snackbar, open: true, message: message })
+  const showSnackbar = (message) => setsnackbar({ ...snackbar, open: true, message: message })
 
   React.useEffect(() => {
     // Api to get user from backend
@@ -121,15 +121,15 @@ const RestPassword = (props) => {
         if (res.data.success) {
           setuser(res.data.user)
           setvalue({ ...value, currentPassword: '', newPassword: '', confirmPassword: '' })
-          showSnackbar("success", res.data.message)
+          showSnackbar(res.data.message)
         } else {
-          showSnackbar("error", res.data.message)
+          showSnackbar(res.data.message)
         }
       }).catch(err => {
-        showSnackbar("error", "sorry, your request cannot be processed at the moment.")
+        showSnackbar("sorry, your request cannot be processed at the moment.")
       })
     } else {
-      showSnackbar("error", "Form is not complete.")
+      showSnackbar("Form is not complete.")
     }
   }
 
